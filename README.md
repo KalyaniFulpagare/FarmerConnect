@@ -1,77 +1,77 @@
 ﻿# 🌾 FarmerConnect
 
-A full-stack Flutter marketplace connecting farmers and buyers with real-time listings, secure checkout, transactional inventory management, location-based discovery, analytics, and price alerts.
+A full-stack Flutter marketplace that connects farmers and buyers through real-time product discovery, secure ordering, inventory management, and price tracking.
 
-## Features
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter)](https://flutter.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-Backend-FFCA28?logo=firebase)](https://firebase.google.com/)
+[![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart)](https://dart.dev/)
 
-- Buyer and seller role-based workflows
-- Product search, categories, and nearby-first discovery
-- Cart and multi-product checkout
-- Real-time inventory and order management
-- Transactional stock and price validation
-- Wishlist, notifications, and price alerts
-- Buyer and seller analytics
-- Cloudinary-powered image uploads
-- Firebase Authentication and Firestore Security Rules
-- Modern quick-commerce inspired UI
+## 🚀 Demo
 
-## Tech Stack
+**[Download the Android APK](release/FarmerConnect-release.apk)**
 
-**Flutter · Dart · Riverpod · Firebase Auth · Cloud Firestore · Cloudinary · go_router · Geolocator**
+## ✨ What it does
 
-## Engineering Highlights
+### For Buyers
+- Discover and search agricultural products
+- Browse by category and location
+- Add products to cart and checkout
+- Real-time stock validation
+- Track orders
+- Manage wishlist
+- Set price alerts
+- View price trends and analytics
 
-### Atomic Checkout
+### For Sellers
+- Create and manage listings
+- Upload product images
+- Track live inventory
+- Manage incoming orders
+- Update order status
+- View sales analytics
 
-    Validate latest stock
-            ↓
-    Validate current price
-            ↓
-    Update inventory
-            ↓
-    Create order
-            ↓
-    Commit transaction
+## 🧠 Engineering Highlights
 
-Firestore transactions ensure inventory and order updates remain consistent and prevent stale-stock purchases.
+- **Atomic checkout** using Firestore transactions to prevent stale-stock purchases
+- **Role-based access** for buyer, seller, and combined accounts
+- **Real-time data** powered by Cloud Firestore
+- **Database-level security** with Firestore Security Rules
+- **Checkout-time price validation**
+- **Cloudinary image pipeline** for efficient product image storage and delivery
+- **Location-aware discovery** with nearby-first sorting
 
-### Order Lifecycle
+## 🛠️ Tech Stack
 
-    Placed → Accepted → Preparing → Ready → Completed
+**Flutter · Dart · Riverpod · Firebase Authentication · Cloud Firestore · Cloudinary · go_router · Geolocator**
 
-## Architecture
+## 🔄 Order Flow
 
-    lib/
-    ├── core/
-    ├── features/
-    │   ├── auth/
-    │   ├── marketplace/
-    │   ├── orders/
-    │   ├── wishlist/
-    │   ├── price_alerts/
-    │   ├── notifications/
-    │   └── analytics/
-    ├── models/
-    └── services/
+`Placed → Accepted → Preparing → Ready → Completed`
 
-Repository and service-based architecture with Firebase-backed real-time data.
+## 📱 Architecture
 
-## Download
+Feature-based Flutter architecture with repository and service layers.
 
-[Download Release APK](release/FarmerConnect-release.apk)
+`Authentication · Marketplace · Orders · Wishlist · Price Alerts · Notifications · Analytics`
 
-## Security
+## 🔐 Security
 
-- Role-based database access
-- Protected buyer and seller operations
-- Transactional inventory updates
-- Checkout-time price validation
 - Firebase Authentication
+- Role-based Firestore access
 - Firestore Security Rules
+- Protected buyer/seller operations
+- Transactional inventory updates
+- Checkout-time validation
 
-## Setup
+## ⚡ Run Locally
 
     flutter pub get
     flutter run
 
-Firebase configuration files are excluded from version control and must be configured for a local deployment.
+Firebase configuration is intentionally excluded from version control. Configure your own Firebase project before running locally.
+
+## 📦 Release
+
+The latest Android release is available here:
+
+**[FarmerConnect-release.apk](release/FarmerConnect-release.apk)**
