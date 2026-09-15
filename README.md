@@ -1,6 +1,6 @@
 ﻿# 🌾 FarmerConnect
 
-A full-stack Flutter marketplace that connects farmers and buyers through real-time product discovery, secure ordering, inventory management, and price tracking.
+A cross-platform Flutter marketplace connecting farmers and buyers through real-time product discovery, secure ordering, inventory management, and price tracking.
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter)](https://flutter.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Backend-FFCA28?logo=firebase)](https://firebase.google.com/)
@@ -8,37 +8,38 @@ A full-stack Flutter marketplace that connects farmers and buyers through real-t
 
 ## 🚀 Demo
 
-**[Download the Android APK](release/FarmerConnect-release.apk)**
+**[Download Android APK](release/FarmerConnect-release.apk)**
 
-## ✨ What it does
+> Built with Flutter for cross-platform deployment.
 
-### For Buyers
-- Discover and search agricultural products
-- Browse by category and location
-- Add products to cart and checkout
+## ✨ Features
+
+### Buyer
+- Product search and category discovery
+- Nearby-first product discovery
+- Cart and multi-product checkout
 - Real-time stock validation
-- Track orders
-- Manage wishlist
-- Set price alerts
-- View price trends and analytics
+- Order tracking
+- Wishlist and notifications
+- Price alerts and trend tracking
+- Buyer analytics
 
-### For Sellers
-- Create and manage listings
-- Upload product images
-- Track live inventory
-- Manage incoming orders
-- Update order status
-- View sales analytics
+### Seller
+- Product listing and management
+- Cloudinary image uploads
+- Live inventory tracking
+- Order management and status updates
+- Seller analytics
 
 ## 🧠 Engineering Highlights
 
 - **Atomic checkout** using Firestore transactions to prevent stale-stock purchases
 - **Role-based access** for buyer, seller, and combined accounts
-- **Real-time data** powered by Cloud Firestore
+- **Real-time marketplace data** powered by Cloud Firestore
 - **Database-level security** with Firestore Security Rules
 - **Checkout-time price validation**
-- **Cloudinary image pipeline** for efficient product image storage and delivery
 - **Location-aware discovery** with nearby-first sorting
+- **Cloudinary image pipeline** for product images
 
 ## 🛠️ Tech Stack
 
@@ -59,7 +60,7 @@ Feature-based Flutter architecture with repository and service layers.
 - Firebase Authentication
 - Role-based Firestore access
 - Firestore Security Rules
-- Protected buyer/seller operations
+- Protected buyer and seller operations
 - Transactional inventory updates
 - Checkout-time validation
 
@@ -72,6 +73,6 @@ Firebase configuration is intentionally excluded from version control. Configure
 
 ## 📦 Release
 
-The latest Android release is available here:
+The current repository includes an Android release build for demonstration.
 
-**[FarmerConnect-release.apk](release/FarmerConnect-release.apk)**
+**[Download FarmerConnect APK](release/FarmerConnect-release.apk)**
