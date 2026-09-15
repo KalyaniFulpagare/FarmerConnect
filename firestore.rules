@@ -1,0 +1,146 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{userId} {
+      allow read: if request.auth != null
+        && request.auth.uid == userId;
+
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.role in ['buyer', 'seller', 'both'];
+
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.role == resource.data.role;
+
+      allow delete: if false;
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.sellerId
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['seller', 'both'];
+
+      // Seller can edit their own product normally.
+      allow update: if request.auth != null
+        && request.auth.uid == resource.data.sellerId
+        && request.resource.data.sellerId == resource.data.sellerId
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['seller', 'both'];
+
+      // Buyer checkout may ONLY decrease quantity and may not change
+      // ownership, product identity, price, or other product fields.
+      allow update: if request.auth != null
+        && request.auth.uid != resource.data.sellerId
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['buyer', 'both']
+        && request.resource.data.sellerId == resource.data.sellerId
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.category == resource.data.category
+        && request.resource.data.price == resource.data.price
+        && request.resource.data.unit == resource.data.unit
+        && request.resource.data.address == resource.data.address
+        && request.resource.data.description == resource.data.description
+        && request.resource.data.latitude == resource.data.latitude
+        && request.resource.data.longitude == resource.data.longitude
+        && request.resource.data.imageUrl == resource.data.imageUrl
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.quantity >= 0
+        && request.resource.data.quantity <= resource.data.quantity
+        && request.resource.data.isActive == (request.resource.data.quantity > 0);
+
+      allow delete: if request.auth != null
+        && request.auth.uid == resource.data.sellerId
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['seller', 'both'];
+    }
+
+    match /orders/{orderId} {
+      // Buyer or seller can read their own order.
+      allow read: if request.auth != null
+        && (
+          request.auth.uid == resource.data.buyerId ||
+          request.auth.uid == resource.data.sellerId
+        );
+
+      // Buyer can create only their own order.
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.buyerId
+        && request.resource.data.buyerId != request.resource.data.sellerId
+        && request.resource.data.quantity > 0
+        && request.resource.data.totalPrice >= 0
+        && request.resource.data.status == 'placed';
+
+      // Seller can ONLY update status of their own order.
+      // No buyer/seller/product/price/quantity/address changes.
+      allow update: if request.auth != null
+        && request.auth.uid == resource.data.sellerId
+        && request.resource.data.buyerId == resource.data.buyerId
+        && request.resource.data.sellerId == resource.data.sellerId
+        && request.resource.data.productId == resource.data.productId
+        && request.resource.data.productName == resource.data.productName
+        && request.resource.data.quantity == resource.data.quantity
+        && request.resource.data.totalPrice == resource.data.totalPrice
+        && request.resource.data.deliveryAddress == resource.data.deliveryAddress
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.status in [
+          'placed',
+          'accepted',
+          'preparing',
+          'ready',
+          'completed',
+          'cancelled'
+        ];
+
+      allow delete: if false;
+    }
+
+    match /price_alerts/{alertId} {
+      allow read: if request.auth != null
+        && request.auth.uid == resource.data.userId;
+
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.userId
+        && request.resource.data.targetPrice > 0
+        && request.resource.data.category is string;
+
+      allow update: if request.auth != null
+        && request.auth.uid == resource.data.userId
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.targetPrice > 0
+        && request.resource.data.category is string;
+
+      allow delete: if request.auth != null
+        && request.auth.uid == resource.data.userId;
+    }
+
+    match /wishlists/{userId} {
+      allow read, write: if request.auth != null
+        && request.auth.uid == userId;
+    }
+
+    match /price_history/{category}/{document=**} {
+      allow read: if true;
+      allow create, update, delete: if false;
+    }
+
+    match /notifications/{notificationId} {
+      allow read, update: if request.auth != null
+        && request.auth.uid == resource.data.userId;
+
+      // Authenticated users may create notifications only for another
+      // authenticated user. This keeps notification creation client-side
+      // compatible with Spark.
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.body is string;
+
+      allow delete: if request.auth != null
+        && request.auth.uid == resource.data.userId;
+    }
+  }
+}

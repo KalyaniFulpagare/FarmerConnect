@@ -1,0 +1,40 @@
+﻿# Flutter / Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/app/build/
+android/build/reports/
+
+# Firebase / local config
+.env
+.env.*
+!.env.example
+android/app/google-services.json
+
+# Backup / temporary files
+*.bak
+farmerconnect_audit_report.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
